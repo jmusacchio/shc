@@ -461,7 +461,7 @@ private[hbase] class HBaseTableScanRDD(
       x.start.isDefined && x.end.isDefined && ScanRange.compare(x.start, x.end, ord) == 0
     }
     logDebug(s"${g.length} gets, ${s.length} scans")
-    context.addTaskCompletionListener(context => close())
+    context.addTaskCompletionListener[Unit](context => close())
     val tableResource = TableResource(relation)
     val filter = TypedFilter.fromSerializedTypedFilter(partition.tf).filter
     val gIt: Iterator[Result] = {
